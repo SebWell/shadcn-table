@@ -1,26 +1,26 @@
 {
   "name": "shadcn-table",
   "version": "1.0.0",
-  "description": "Shadcn/UI Table component for Weweb",
-  "main": "src/Table.vue",
+  "description": "Shadcn/UI table component for Weweb",
+  "main": "src/table.vue",
+  "weweb": {
+    "componentPath": "./src/table.vue"
+  },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "webpack serve --mode development",
+    "build": "webpack --mode production"
   },
   "keywords": [
     "weweb",
     "shadcn",
     "ui",
-    "Table",
+    "table",
     "vue",
     "component"
   ],
-  "author": "Shadcn/UI for Weweb Community",
+  "author": "Shadcn/UI for Weweb",
   "license": "MIT",
   "dependencies": {
     "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "^5.0.8"
   }
 }
