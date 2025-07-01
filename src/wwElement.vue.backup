@@ -1,21 +1,21 @@
 <template>
-  <div :class="cn('relative w-full overflow-auto', containerClass)">
-    <table :class="cn('w-full caption-bottom text-sm', customClass)">
+  <div :class="cn('relative w-full overflow-auto', content.containerClass)">
+    <table :class="cn('w-full caption-bottom text-sm', content.customClass)">
       <!-- Caption -->
       <caption 
-        v-if="caption"
-        :class="cn('mt-4 text-sm text-muted-foreground', captionClass)"
+        v-if="content.caption"
+        :class="cn('mt-4 text-sm text-muted-foreground', content.captionClass)"
       >
-        {{ caption }}
+        {{ content.caption }}
       </caption>
 
       <!-- Header -->
-      <thead v-if="showHeader" :class="cn('[&_tr]:border-b', headerClass)">
-        <tr :class="cn('border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', headerRowClass)">
+      <thead v-if="showHeader" :class="cn('[&_tr]:border-b', content.headerClass)">
+        <tr :class="cn('border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', content.headerRowClass)">
           <!-- Selection checkbox -->
           <th 
-            v-if="selectable"
-            :class="cn('h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0', checkboxCellClass)"
+            v-if="content.selectable"
+            :class="cn('h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0', content.checkboxCellClass)"
           >
             <input
               type="checkbox"
@@ -37,7 +37,7 @@
               column.width && `w-[${column.width}]`,
               column.align === 'center' && 'text-center',
               column.align === 'right' && 'text-right',
-              headerCellClass,
+              content.headerCellClass,
               column.headerClass
             )"
             @click="column.sortable && handleSort(column.key)"
@@ -71,21 +71,21 @@
       </thead>
 
       <!-- Body -->
-      <tbody :class="cn('[&_tr:last-child]:border-0', bodyClass)">
+      <tbody :class="cn('[&_tr:last-child]:border-0', content.bodyClass)">
         <tr
           v-for="(row, rowIndex) in sortedData"
           :key="getRowKey(row, rowIndex)"
           :class="cn(
             'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
             isRowSelected(row) && 'bg-muted',
-            rowClass
+            content.rowClass
           )"
           @click="handleRowClick(row, rowIndex)"
         >
           <!-- Selection checkbox -->
           <td 
-            v-if="selectable"
-            :class="cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', checkboxCellClass)"
+            v-if="content.selectable"
+            :class="cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', content.checkboxCellClass)"
           >
             <input
               type="checkbox"
@@ -105,7 +105,7 @@
               'p-4 align-middle',
               column.align === 'center' && 'text-center',
               column.align === 'right' && 'text-right',
-              cellClass,
+              content.cellClass,
               column.cellClass
             )"
           >
@@ -126,19 +126,19 @@
         <tr v-if="sortedData.length === 0">
           <td 
             :colspan="totalColumns"
-            :class="cn('p-8 text-center text-muted-foreground', emptyCellClass)"
+            :class="cn('p-8 text-center text-muted-foreground', content.emptyCellClass)"
           >
-            {{ emptyText || 'No data available' }}
+            {{ content.emptyText || 'No data available' }}
           </td>
         </tr>
       </tbody>
 
       <!-- Footer -->
-      <tfoot v-if="showFooter" :class="cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', footerClass)">
+      <tfoot v-if="content.showFooter" :class="cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', content.footerClass)">
         <tr>
           <td 
-            v-if="selectable"
-            :class="cn('p-4 align-middle', checkboxCellClass)"
+            v-if="content.selectable"
+            :class="cn('p-4 align-middle', content.checkboxCellClass)"
           >
           </td>
           
@@ -149,7 +149,7 @@
               'p-4 align-middle font-medium',
               column.align === 'center' && 'text-center',
               column.align === 'right' && 'text-right',
-              footerCellClass,
+              content.footerCellClass,
               column.footerClass
             )"
           >
@@ -183,10 +183,10 @@ const selectedRows = ref([])
 const sortConfig = ref({ key: '', direction: 'asc' })
 
 // Computed properties
-const data = computed(() => props.data || [])
-const columns = computed(() => props.columns || [])
-const showHeader = computed(() => props.showHeader !== false)
-const totalColumns = computed(() => columns.value.length + (props.selectable ? 1 : 0))
+const data = computed(() => props.content.data || [])
+const columns = computed(() => props.content.columns || [])
+const showHeader = computed(() => props.content.showHeader !== false)
+const totalColumns = computed(() => columns.value.length + (props.content.selectable ? 1 : 0))
 
 const sortedData = computed(() => {
   if (!sortConfig.value.key) {
@@ -258,8 +258,8 @@ const formatCellValue = (value, column) => {
 }
 
 const getRowKey = (row, index) => {
-  if (props.rowKey && row[props.rowKey]) {
-    return row[props.rowKey]
+  if (props.content.rowKey && row[props.content.rowKey]) {
+    return row[props.content.rowKey]
   }
   return index
 }
